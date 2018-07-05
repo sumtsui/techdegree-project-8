@@ -1,8 +1,3 @@
-/*  
-  - i wonder which is the normal site development flow: 1) make changes in the src folder and test by serving the src foloder, then only when the site is ready, produce a dist folder for distribution. OR 2) create the dist folder at the very beginning, and re-creating files inside it when they make changes everytime to the project, and serve the dist folder to see changes.
-  - i thought it was the first one after learning the Treehouse course but the project instruction indicates the second one.
-*/
-
 const gulp = require('gulp'),
       sass = require('gulp-sass'),
       maps = require('gulp-sourcemaps'),
@@ -11,14 +6,16 @@ const gulp = require('gulp'),
       rename = require('gulp-rename'),
       del = require('del'),
       // useref = require('gulp-useref'),
-      // iff = require('gulp-if'),
       csso = require('gulp-csso'),
       imagemin = require('gulp-imagemin'),
-      connect = require('gulp-connect');
+      connect = require('gulp-connect'),
+      open = require('gulp-open'),
+      iff = require('gulp-if');
 
 const options = {
   src: 'src',
-  dist: 'dist'
+  dist: 'dist',
+  port: 8888
 };
 
 gulp.task('styles', () => {
@@ -55,24 +52,21 @@ gulp.task('watch', () => {
 });
 
 gulp.task('clean', () => {
-  del([
-    'dist', 
-    // options.src + '/css/all*.css*', options.src + '/js/all*.js*'
-  ]);
+  del(['dist']);
 });
 
 gulp.task('images', () => {
-  gulp.src('src/images/*')
-      .pipe(imagemin())
-      .pipe(gulp.dest('dist/content'));
+  return gulp.src('src/images/*')
+            .pipe(imagemin())
+            .pipe(gulp.dest('dist/content'));
 });
 
 gulp.task('build', ['clean', 'styles', 'scripts', 'images', 'watch', 'connect'], () => {
   gulp.src([
         options.src + '/index.html',
         options.src + '/icons/**'], { base: './' + options.src})
-      // .pipe(iff('index.html', useref()))
-      .pipe(gulp.dest(options.dist + '/'));
+      .pipe(gulp.dest(options.dist + '/'))
+      .pipe(iff('index.html', open({ app: 'firefox', uri: `http://localhost:${options.port}` })));
 });
 
 gulp.task('default', () => {
@@ -80,11 +74,11 @@ gulp.task('default', () => {
 });
 
 gulp.task('connect', () => {
-  connect.server({
-    port: 8888,
-    root: 'dist',
-    livereload: true
-  });
+  return connect.server({
+      port: options.port,
+      root: 'dist',
+      livereload: true
+    });
 });
 
 // not related to passing the project but want to keep for future use:
