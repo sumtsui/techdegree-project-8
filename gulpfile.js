@@ -64,7 +64,7 @@ gulp.task('clean', () => {
 gulp.task('images', () => {
   gulp.src('src/images/*')
       .pipe(imagemin())
-      .pipe(gulp.dest('dist/images'));
+      .pipe(gulp.dest('dist/content'));
 });
 
 gulp.task('build', ['clean', 'styles', 'scripts', 'images', 'watch', 'connect'], () => {
