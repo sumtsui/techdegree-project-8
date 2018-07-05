@@ -1,6 +1,6 @@
 /*  
   - i wonder which is the normal site development flow: 1) make changes in the src folder and test by serving the src foloder, then only when the site is ready, produce a dist folder for distribution. OR 2) create the dist folder at the very beginning, and re-creating files inside it when they make changes everytime to the project, and serve the dist folder to see changes.
-  - i thought it was the first one but this project indicates the second one.
+  - i thought it was the first one after learning the Treehouse course but the project instruction indicates the second one.
 */
 
 const gulp = require('gulp'),
@@ -57,27 +57,9 @@ gulp.task('watch', () => {
 gulp.task('clean', () => {
   del([
     'dist', 
-    options.src + '/css/all*.css*', options.src + '/js/all*.js*'
+    // options.src + '/css/all*.css*', options.src + '/js/all*.js*'
   ]);
 });
-
-// gulp.task('serve', ['watch']);
-
-// gulp.task('styles', ['compileSass'], () => {
-//   return gulp.src(options.dist + '/styles/all.css')
-//     .pipe(csso())
-//     .pipe(rename('all.min.css'))
-//     .pipe(gulp.dest(options.dist + '/styles'))
-//     .pipe(connect.reload());
-// });
-
-// gulp.task('scripts', ['concatScripts'], () => {
-//   return gulp.src(options.dist + '/scripts/all.js')
-//     .pipe(uglify())
-//     .pipe(rename('all.min.js'))
-//     .pipe(gulp.dest(options.dist + '/scripts'))
-//     .pipe(connect.reload());
-// });
 
 gulp.task('images', () => {
   gulp.src('src/images/*')
@@ -105,10 +87,29 @@ gulp.task('connect', () => {
   });
 });
 
+// not related to passing the project but want to keep for future use:
 // gulp.task('html', ['compileSass'], () => {
 //   gulp.src(options.src + '/index.html')
 //     .pipe(useref())
 //     .pipe(iff('*.js', uglify()))
 //     .pipe(iff('*.css', csso()))
 //     .pipe(gulp.dest(options.dist + '/'));
+// });
+
+// gulp.task('serve', ['watch']);
+
+// gulp.task('styles', ['compileSass'], () => {
+//   return gulp.src(options.dist + '/styles/all.css')
+//     .pipe(csso())
+//     .pipe(rename('all.min.css'))
+//     .pipe(gulp.dest(options.dist + '/styles'))
+//     .pipe(connect.reload());
+// });
+
+// gulp.task('scripts', ['concatScripts'], () => {
+//   return gulp.src(options.dist + '/scripts/all.js')
+//     .pipe(uglify())
+//     .pipe(rename('all.min.js'))
+//     .pipe(gulp.dest(options.dist + '/scripts'))
+//     .pipe(connect.reload());
 // });
