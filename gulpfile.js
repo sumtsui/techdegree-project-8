@@ -66,7 +66,7 @@ gulp.task('build', ['clean', 'styles', 'scripts', 'images', 'watch', 'connect'],
         options.src + '/index.html',
         options.src + '/icons/**'], { base: './' + options.src})
       .pipe(gulp.dest(options.dist + '/'))
-      .pipe(iff('index.html', open({ app: 'firefox', uri: `http://localhost:${options.port}` })));
+      .pipe(iff('index.html', open({ uri: `http://localhost:${options.port}` })));
 });
 
 gulp.task('default', () => {
@@ -81,7 +81,6 @@ gulp.task('connect', () => {
     });
 });
 
-// not related to passing the project but want to keep for future use:
 // gulp.task('html', ['compileSass'], () => {
 //   gulp.src(options.src + '/index.html')
 //     .pipe(useref())
